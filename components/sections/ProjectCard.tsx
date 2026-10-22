@@ -12,7 +12,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, priority = false }: ProjectCardProps) {
   return (
-    <Card className="group overflow-hidden border-border/60 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-xl">
+    <Card className="group overflow-hidden border-border/60 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-500/[0.04]">
       <Link href={`/projects/${project.slug}`} className="block focus:outline-none">
         {/* Mockup Image Container */}
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted/40 border-b border-border/40">
@@ -24,15 +24,16 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
             className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
           
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-            <Badge className="bg-background/85 text-foreground backdrop-blur-md border border-border/60 text-xs font-medium">
+            <Badge className="bg-background/90 text-foreground backdrop-blur-md border border-border/70 text-xs font-medium shadow-md">
+              <span className="size-1.5 rounded-full bg-emerald-400 mr-1.5 shrink-0" />
               {project.category}
             </Badge>
           </div>
 
-          <div className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full bg-background/80 backdrop-blur-md text-foreground opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+          <div className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full bg-background/90 backdrop-blur-md text-foreground shadow-md transition-all duration-300 group-hover:bg-foreground group-hover:text-background group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
             <ArrowUpRight className="size-4" />
           </div>
         </div>

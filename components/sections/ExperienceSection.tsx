@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Briefcase, GraduationCap, Wrench, Calendar, CheckCircle2 } from "lucide-react";
+import { Briefcase, GraduationCap, Wrench, Calendar, CheckCircle2, Search, Code2, Layers, BookOpen } from "lucide-react";
 
 export function ExperienceSection() {
   const experiences = [
@@ -59,21 +59,6 @@ export function ExperienceSection() {
       degree: "Natural Sciences (IPA)",
       period: "2018 – 2021",
       notes: "Strong foundation in analytical problem solving and quantitative reasoning.",
-    },
-  ];
-
-  const skillGroups = [
-    {
-      category: "UX Research & Product Strategy",
-      skills: ["User Interviews", "Usability Testing (Maze)", "Information Architecture", "Heuristic Evaluation", "Wireframing", "Journey Mapping"],
-    },
-    {
-      category: "UI Design & Systems",
-      skills: ["Figma (Auto-layout, Components, Tokens)", "Design Systems", "High-Fidelity Mockups", "Interactive Prototyping", "Micro-interactions"],
-    },
-    {
-      category: "Engineering & Technical Implementation",
-      skills: ["Next.js 15 (App Router)", "React 19", "TypeScript", "Tailwind CSS v4", "shadcn/ui", "Supabase (PostgreSQL)", "Git & GitHub"],
     },
   ];
 
@@ -168,32 +153,157 @@ export function ExperienceSection() {
         </div>
       </div>
 
-      {/* Skills Matrix (No arbitrary % bars, semantic competency chips) */}
+      {/* Skills Bento Grid (Replaces arbitrary percentage bars with verified capabilities) */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold tracking-tight text-foreground flex items-center gap-2">
-          <Wrench className="size-5 text-primary" />
-          Skills & Core Competencies
-        </h3>
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold tracking-tight text-foreground flex items-center gap-2">
+            <Wrench className="size-5 text-primary" />
+            Design & Engineering Capabilities
+          </h3>
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            A balanced synthesis of user research rigor, design system craftsmanship, and technical code literacy.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {skillGroups.map((group, gIdx) => (
-            <div key={gIdx} className="p-5 rounded-xl border border-border/60 bg-muted/20 space-y-3">
-              <h4 className="text-sm font-semibold text-foreground tracking-tight">
-                {group.category}
-              </h4>
-              <div className="flex flex-wrap gap-1.5">
-                {group.skills.map((skill, sIdx) => (
-                  <Badge
-                    key={sIdx}
-                    variant="outline"
-                    className="text-xs bg-background/60 font-normal border-border/80"
-                  >
-                    {skill}
-                  </Badge>
-                ))}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Card 1: UX Research & Strategy (Span 7) */}
+          <div className="md:col-span-7 p-6 rounded-2xl border border-border/60 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm space-y-4 hover:border-foreground/20 transition-all">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400">
+                <Search className="size-5" />
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-foreground">
+                  UX Research & Product Strategy
+                </h4>
+                <p className="text-xs text-muted-foreground">
+                  Heuristic evaluations, contextual inquiries, and usability benchmarking
+                </p>
               </div>
             </div>
-          ))}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {[
+                "User Interviews",
+                "Usability Testing (Maze)",
+                "Information Architecture",
+                "Heuristic Evaluation",
+                "Customer Journey Mapping",
+                "SUS Benchmarking",
+              ].map((skill, sIdx) => (
+                <Badge
+                  key={sIdx}
+                  variant="outline"
+                  className="text-xs bg-background/60 font-normal border-border/80"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 2: Design Systems & Tokens (Span 5) */}
+          <div className="md:col-span-5 p-6 rounded-2xl border border-border/60 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm space-y-4 hover:border-foreground/20 transition-all">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400">
+                <Layers className="size-5" />
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-foreground">
+                  UI Design Systems
+                </h4>
+                <p className="text-xs text-muted-foreground">
+                  Tokenized Figma atomic components
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {[
+                "Figma Auto-layout",
+                "Design Tokens",
+                "Component Specs",
+                "Micro-interactions",
+                "Design QA",
+              ].map((skill, sIdx) => (
+                <Badge
+                  key={sIdx}
+                  variant="outline"
+                  className="text-xs bg-background/60 font-normal border-border/80"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 3: Front-End Engineering (Span 6) */}
+          <div className="md:col-span-6 p-6 rounded-2xl border border-border/60 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm space-y-4 hover:border-foreground/20 transition-all">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                <Code2 className="size-5" />
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-foreground">
+                  Front-End Engineering Feasibility
+                </h4>
+                <p className="text-xs text-muted-foreground">
+                  Production code fluency for smooth dev handoff
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {[
+                "Next.js 15 (App Router)",
+                "React 19",
+                "TypeScript",
+                "Tailwind CSS v4",
+                "shadcn/ui",
+                "Supabase (PostgreSQL)",
+                "Git & GitHub",
+              ].map((skill, sIdx) => (
+                <Badge
+                  key={sIdx}
+                  variant="outline"
+                  className="text-xs bg-background/60 font-normal border-border/80"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 4: Academic & IS Strategy (Span 6) */}
+          <div className="md:col-span-6 p-6 rounded-2xl border border-border/60 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm space-y-4 hover:border-foreground/20 transition-all">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
+                <BookOpen className="size-5" />
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-foreground">
+                  Information Systems & Management
+                </h4>
+                <p className="text-xs text-muted-foreground">
+                  Master&apos;s level business & technology alignment
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {[
+                "Enterprise Architecture",
+                "Business Process Analysis",
+                "Agile / Scrum Methodologies",
+                "Product Analytics",
+                "Decision Support Systems",
+              ].map((skill, sIdx) => (
+                <Badge
+                  key={sIdx}
+                  variant="outline"
+                  className="text-xs bg-background/60 font-normal border-border/80"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { submitContactAction } from "@/app/actions/contact";
 import { ContactFormData } from "@/lib/validations";
+import { CopyEmailButton } from "@/components/ui/copy-email-button";
 
 export function ContactForm() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -104,12 +105,15 @@ export function ContactForm() {
                   </div>
                   <div className="space-y-0.5">
                     <div className="text-xs text-muted-foreground">Direct Email</div>
-                    <a
-                      href="mailto:firasezraep@gmail.com"
-                      className="text-sm font-semibold text-foreground hover:underline"
-                    >
-                      firasezraep@gmail.com
-                    </a>
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                      <a
+                        href="mailto:firasezraep@gmail.com"
+                        className="text-sm font-semibold text-foreground hover:underline"
+                      >
+                        firasezraep@gmail.com
+                      </a>
+                      <CopyEmailButton variant="pill" />
+                    </div>
                   </div>
                 </div>
 
