@@ -12,7 +12,9 @@ const Lanyard = dynamic(() => import("@/components/ui/lanyard"), {
 
 const PORTRAIT = "/images/firas-profile.png";
 const FALLBACK_CARD = "rgb(255, 255, 255)";
-const MOBILE_BREAKPOINT = 768;
+// Must match Tailwind's lg breakpoint: the stage classes switch at lg, so the JS
+// sizing has to switch at the same width or the two disagree between 768 and 1023px.
+const DESKTOP_BREAKPOINT = 1024;
 // Phones push a 3x device pixel ratio; cap harder there than on desktop.
 const MOBILE_MAX_PIXEL_RATIO = 1.5;
 const DESKTOP_MAX_PIXEL_RATIO = 2;
@@ -77,27 +79,17 @@ function getServerCardColor(): string {
 }
 
 /**
- * A lanyard badge dangling from the sticky navbar. The stage is a fixed overlay
- * that covers the viewport below the 64px navbar; the canvas lets clicks through
- * anywhere except on the card itself (passthrough mode in <Lanyard />).
+ * A lanyard badge dangling from the navbar over the hero.
+ *
+ * The stage is `absolute`, not `fixed`: it belongs to the hero, so scrolling moves
+ * it up and the sticky navbar covers it — the badge sinks under the nav instead of
+ * trailing the viewport. Sizes are expressed so the card keeps a margin inside the
+ * stage at every breakpoint; the canvas clips at its own edges, so a card wider than
+ * its stage would visibly cut.
  */
 export function HangingLanyard() {
   const [mounted, setMounted] = useState(false);
   const cardColor = useSyncExternalStore(subscribeToTheme, getCardColor, getServerCardColor);
-
-  // Park the badge once the hero scrolls away: it hangs from the navbar for the
-  // first screen only, so it never covers another section's content.
-  const [heroVisible, setHeroVisible] = useState(true);
-
-  useEffect(() => {
-    const hero = document.getElementById("hero");
-    if (!hero) return;
-    const observer = new IntersectionObserver((entries) => setHeroVisible(entries[0]?.isIntersecting ?? true), {
-      threshold: 0.15,
-    });
-    observer.observe(hero);
-    return () => observer.disconnect();
-  }, []);
 
   // Wait for the window load event so three.js never competes with the poster
   // image (LCP) for bandwidth or main thread time.
@@ -119,16 +111,13 @@ export function HangingLanyard() {
     };
   }, []);
 
-  const isPhone = typeof window !== "undefined" && window.innerWidth < MOBILE_BREAKPOINT;
-  const size = isPhone ? 0.32 : 0.42;
-  const strapLength = isPhone ? 0.26 : 0.3;
+  // Card width is 0.711 x size x stage height, so these values keep ~20% clearance
+  // on both sides of the swing at each breakpoint.
+  const isPhone = typeof window !== "undefined" && window.innerWidth < DESKTOP_BREAKPOINT;
+  const size = isPhone ? 0.58 : 0.52;
 
   return (
-    <div
-      className={`pointer-events-none fixed right-0 top-16 bottom-0 z-40 w-[clamp(230px,26vw,370px)] ${
-        heroVisible ? "" : "hidden"
-      }`}
-    >
+    <div className="pointer-events-none absolute -top-[44px] left-1/2 z-40 h-[27rem] w-[min(90vw,360px)] -translate-x-1/2 lg:-top-[68px] lg:left-auto lg:right-14 lg:h-[clamp(520px,66vh,660px)] lg:w-[clamp(300px,30vw,400px)] lg:translate-x-0">
       {mounted ? (
         <Lanyard
           frontImage={PORTRAIT}
@@ -140,16 +129,21 @@ export function HangingLanyard() {
           cornerRadius={0.24}
           size={size}
           anchor="center"
-          strapLength={strapLength}
+          strapLength={0.3}
           strapColor="#111111"
           strapWidth={0.62}
           metal="silver"
           gravity={1}
           damping={0.5}
           elasticity={0.5}
-          breeze={0.35}
+          // Any non-zero breeze keeps driving the pendulum and the stage clips the
+          // card on the extremes (measured: a 354px sweep in a 400px stage). Wind off
+          // lets the sim settle and stop; drag and flip still animate on interaction.
+          breeze={0}
           interactive
-          intro
+          // No drop-in: the intro swings across the stage, and there is no side wall
+          // for the badge to fall from in this layout.
+          intro={false}
           passthrough
           maxPixelRatio={isPhone ? MOBILE_MAX_PIXEL_RATIO : DESKTOP_MAX_PIXEL_RATIO}
         />
