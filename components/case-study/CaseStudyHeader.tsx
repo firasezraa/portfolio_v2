@@ -17,14 +17,14 @@ export function CaseStudyHeader({ project }: CaseStudyHeaderProps) {
       {/* Back Link */}
       <div>
         <Link
-          href="/#projects"
+          href="/#work"
           className={cn(
             buttonVariants({ variant: "ghost", size: "sm" }),
             "gap-2 text-muted-foreground hover:text-foreground -ml-2.5"
           )}
         >
           <ArrowLeft className="size-4" />
-          Back to Projects
+          Back to work
         </Link>
       </div>
 
@@ -40,7 +40,7 @@ export function CaseStudyHeader({ project }: CaseStudyHeaderProps) {
           <ViewCounter slug={project.slug} />
         </div>
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
+        <h1 className="font-heading text-3xl font-bold leading-[1.12] tracking-tight text-foreground sm:text-4xl md:text-5xl">
           {project.title}
         </h1>
 
@@ -93,7 +93,7 @@ export function CaseStudyHeader({ project }: CaseStudyHeaderProps) {
       </div>
 
       {/* Hero Visual Mockup */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border/60 bg-card/40 shadow-2xl">
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border/70 bg-muted/40">
         <Image
           src={project.heroImage}
           alt={project.title}

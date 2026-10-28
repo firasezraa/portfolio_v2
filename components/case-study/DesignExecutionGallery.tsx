@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Layers } from "lucide-react";
 import { CaseStudySection } from "@/types";
 
 interface DesignExecutionGalleryProps {
@@ -14,60 +13,60 @@ export function DesignExecutionGallery({
 }: DesignExecutionGalleryProps) {
   return (
     <section className="space-y-12">
-      {/* Design Approach Header */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider">
-          <Layers className="size-4" />
-          <span>Design Architecture & Execution</span>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-          Iterative Solutions & Design Decisions
+      <div className="space-y-4">
+        <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Iterative solutions &amp; design decisions
         </h2>
-        <p className="text-base text-muted-foreground leading-relaxed max-w-3xl">
+        <p className="max-w-3xl text-base leading-relaxed text-muted-foreground">
           {approach}
         </p>
       </div>
 
-      {/* Structured Solution Sections */}
       <div className="space-y-16">
-        {sections.map((section, idx) => (
-          <div key={idx} className="space-y-6 pt-6 border-t border-border/40">
+        {sections.map((section) => (
+          <div
+            key={section.title}
+            className="space-y-6 border-t border-border/70 pt-8"
+          >
             <div className="space-y-3">
               {section.badge && (
-                <Badge variant="outline" className="text-xs font-normal">
+                <Badge variant="outline" className="text-xs font-medium">
                   {section.badge}
                 </Badge>
               )}
-              <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+              <h3 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                 {section.title}
               </h3>
             </div>
 
             <div className="space-y-3">
-              {section.content.map((paragraph, pIdx) => (
-                <p key={pIdx} className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              {section.content.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base"
+                >
                   {paragraph}
                 </p>
               ))}
             </div>
 
             {section.keyPoints && section.keyPoints.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                {section.keyPoints.map((point, kIdx) => (
-                  <div
-                    key={kIdx}
-                    className="flex items-start gap-2 p-3 rounded-lg border border-border/40 bg-card/40 text-xs text-foreground/90 font-medium"
+              <ul className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
+                {section.keyPoints.map((point) => (
+                  <li
+                    key={point}
+                    className="flex items-start gap-2.5 rounded-lg border border-border/70 bg-background p-3 text-xs font-medium text-foreground/90"
                   >
-                    <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     <span className="leading-normal">{point}</span>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
 
             {section.image && (
               <figure className="space-y-2.5 pt-2">
-                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border/60 bg-muted/40 shadow-lg">
+                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border/70 bg-muted/40">
                   <Image
                     src={section.image.src}
                     alt={section.image.alt}
@@ -76,7 +75,7 @@ export function DesignExecutionGallery({
                     className="object-cover object-top"
                   />
                 </div>
-                <figcaption className="text-xs text-center text-muted-foreground italic">
+                <figcaption className="text-xs text-muted-foreground">
                   {section.image.caption}
                 </figcaption>
               </figure>

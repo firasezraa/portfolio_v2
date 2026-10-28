@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -71,11 +78,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${poppins.className} font-sans dark h-full scroll-smooth antialiased`}
+      className={`${figtree.variable} ${bricolage.variable} ${figtree.className} font-sans h-full scroll-smooth antialiased`}
     >
-      <body className={`${poppins.className} min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-primary/20 selection:text-primary`}>
+      <body className={`${figtree.className} min-h-full flex flex-col font-sans bg-background text-foreground`}>
         <Navbar />
-        <div className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
           {children}
         </div>
         <Footer />
