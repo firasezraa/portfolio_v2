@@ -5,18 +5,18 @@ import { cn } from "@/lib/utils";
 
 export function InteractiveGradient({
   className,
-  intensity = 0.15,
+  intensity = 0.35,
   colors = [
-    "oklch(0.5 0.2 263)",
-    "oklch(0.55 0.18 220)",
-    "oklch(0.6 0.16 180)",
+    "oklch(0.75 0.25 280)",
+    "oklch(0.7 0.22 240)",
+    "oklch(0.65 0.2 200)",
+    "oklch(0.7 0.18 160)",
   ],
 }: {
   className?: string;
   intensity?: number;
   colors?: string[];
 }) {
-  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
   const [reduceMotion, setReduceMotion] = useState(false);
   const [mounted, setMounted] = useState(false);
   const rafRef = useRef<number | null>(null);
@@ -46,9 +46,9 @@ export function InteractiveGradient({
 
     const tick = () => {
       currentRef.current.x +=
-        (targetRef.current.x - currentRef.current.x) * 0.08;
+        (targetRef.current.x - currentRef.current.x) * 0.06;
       currentRef.current.y +=
-        (targetRef.current.y - currentRef.current.y) * 0.08;
+        (targetRef.current.y - currentRef.current.y) * 0.06;
 
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -63,11 +63,11 @@ export function InteractiveGradient({
   if (reduceMotion || !mounted) return null;
 
   const gradientStops = colors
-    .map((c, i) => `${c} ${Math.round(20 + i * 30)}%`)
+    .map((c, i) => `${c} ${Math.round(i * 100 / (colors.length - 1))}%`)
     .join(", ");
 
   const style: React.CSSProperties = {
-    background: `radial-gradient(ellipse 120% 120% at ${currentRef.current.x * 100}% ${currentRef.current.y * 100}%, ${gradientStops})`,
+    background: `radial-gradient(ellipse 150% 150% at ${currentRef.current.x * 100}% ${currentRef.current.y * 100}%, ${gradientStops})`,
     opacity: intensity,
     pointerEvents: "none",
     position: "fixed",
