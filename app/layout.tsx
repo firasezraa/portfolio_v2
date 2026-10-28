@@ -83,8 +83,8 @@ export default function RootLayout({
       className={`${figtree.variable} ${bricolage.variable} ${figtree.className} font-sans h-full scroll-smooth antialiased`}
       suppressHydrationWarning
     >
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
+      <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {/* Full-viewport hero background, fixed behind all content */}
           <HeroBackground
             variant="dots"
@@ -104,7 +104,7 @@ export default function RootLayout({
             seed={1}
             fps={60}
           />
-          
+
           {/* Page content layered on top */}
           <div className="relative flex flex-col min-h-screen z-10">
             <Navbar />
@@ -113,10 +113,10 @@ export default function RootLayout({
             </div>
             <Footer />
           </div>
-          
+
           <Toaster richColors position="top-right" />
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
