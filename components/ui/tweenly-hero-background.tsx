@@ -982,10 +982,10 @@ export function HeroBackground({
         else W.rippling = true;
       }
       W.t += dt * W.o.speed;
-      scene?.step(dt);
+      if (!reduced) scene?.step(dt);
     };
 
-    const shouldRun = () => !reduced && onScreen && !document.hidden && W.w > 0 && W.h > 0;
+    const shouldRun = () => (reduced ? onScreen && !document.hidden && W.w > 0 && W.h > 0 : !document.hidden && W.w > 0 && W.h > 0);
 
     const frame = (now: number) => {
       raf = 0;
@@ -1089,7 +1089,7 @@ export function HeroBackground({
     const scheme = window.matchMedia("(prefers-color-scheme: dark)");
     scheme.addEventListener("change", markDirty);
 
-    const listen = interactive && !reduced;
+    const listen = interactive;
     if (listen) {
       root.addEventListener("pointermove", onMove);
       root.addEventListener("pointerdown", onDown);
