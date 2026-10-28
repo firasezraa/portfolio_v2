@@ -72,7 +72,7 @@ export function InteractiveGradient({
     pointerEvents: "none",
     position: "fixed",
     inset: 0,
-    zIndex: -1,
+    zIndex: 0,
     willChange: "background",
   } as React.CSSProperties;
 
