@@ -1120,14 +1120,13 @@ export function HeroBackground({
     <div
       ref={rootRef}
       data-slot="hero-background"
-      className={cn("relative isolate overflow-hidden", className)}
+      className={cn("fixed inset-0 isolate overflow-hidden -z-10", className)}
       style={{ background }}
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={MASKS[mask]}>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={MASKS[mask]}>
         <canvas ref={canvasRef} className="block size-full" />
         <span ref={probeRef} hidden />
       </div>
-      {children}
     </div>
   );
 }
