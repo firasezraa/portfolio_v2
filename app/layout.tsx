@@ -83,7 +83,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
-        <InteractiveGradient intensity={0.18} />
+        <InteractiveGradient />
         <Navbar />
         <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
           {children}

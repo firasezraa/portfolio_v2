@@ -127,7 +127,7 @@
   }
   body {
     @apply text-foreground font-sans antialiased;
-    background: transparent;
+    background: oklch(0.98 0.002 90);
   }
 
   ::selection {
