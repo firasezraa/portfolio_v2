@@ -4,7 +4,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { InteractiveGradient } from "@/components/ui/interactive-gradient";
+import { ThemeProvider } from "next-themes";
+import { HeroBackground } from "@/components/ui/tweenly-hero-background";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -82,15 +83,34 @@ export default function RootLayout({
       className={`${figtree.variable} ${bricolage.variable} ${figtree.className} font-sans h-full scroll-smooth antialiased`}
       suppressHydrationWarning
     >
-      <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
-        <InteractiveGradient />
-        <Navbar />
-        <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
-          {children}
-        </div>
-        <Footer />
-        <Toaster richColors position="top-right" />
-      </body>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
+          <HeroBackground
+            variant="dots"
+            mask="radial"
+            color="currentColor"
+            accent="#ff4d12"
+            density={1}
+            size={1.5}
+            speed={1}
+            interaction="repel"
+            radius={160}
+            strength={1}
+            opacity={0.35}
+            clickRipple={true}
+            interactive={true}
+            seed={1}
+            fps={60}
+          >
+            <Navbar />
+            <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
+              {children}
+            </div>
+            <Footer />
+          </HeroBackground>
+          <Toaster richColors position="top-right" />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
