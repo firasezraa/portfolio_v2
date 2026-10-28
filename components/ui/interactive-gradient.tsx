@@ -18,11 +18,13 @@ export function InteractiveGradient({
 }) {
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const rafRef = useRef<number | null>(null);
   const targetRef = useRef({ x: 0.5, y: 0.5 });
   const currentRef = useRef({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
+    setMounted(true);
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduceMotion(mq.matches);
     const handler = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
@@ -58,7 +60,7 @@ export function InteractiveGradient({
     };
   }, [reduceMotion]);
 
-  if (reduceMotion) return null;
+  if (reduceMotion || !mounted) return null;
 
   const gradientStops = colors
     .map((c, i) => `${c} ${Math.round(20 + i * 30)}%`)
