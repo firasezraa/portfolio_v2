@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrambleText } from "@/components/ui/scramble-text";
+import { HangingLanyard } from "@/components/sections/HangingLanyard";
 
 const proofMetrics = [
   { value: "+38%", label: "workflow efficiency", context: "Kadence portal redesign" },
@@ -12,7 +12,9 @@ const proofMetrics = [
 
 export function HeroSection() {
   return (
-    <section className="grid grid-cols-1 gap-12 pt-4 md:pt-8 lg:grid-cols-12 lg:gap-8">
+    <section id="hero" className="grid grid-cols-1 gap-12 pt-4 md:pt-8 lg:grid-cols-12 lg:gap-8">
+      {/* Mobile: reserve the space the hanging badge occupies so it never covers the headline */}
+      <div className="col-span-full h-[27rem] sm:h-[24rem] lg:hidden" aria-hidden="true" />
       {/* Copy */}
       <div className="flex flex-col justify-center lg:col-span-7">
         <p className="animate-fade-up text-sm font-medium text-muted-foreground" style={{ '--delay': '0.02s' } as React.CSSProperties}>
@@ -53,25 +55,9 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Portrait */}
-      <div className="lg:col-span-5 animate-fade-up" style={{ '--delay': '0.16s' } as React.CSSProperties}>
-        <div className="relative mx-auto w-full max-w-sm">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/80 bg-muted">
-            <Image
-              src="/images/firas-profile.png"
-              alt="Portrait of Firas Ezra"
-              fill
-              priority
-              sizes="(max-width: 768px) 90vw, 400px"
-              className="object-cover object-top grayscale mix-blend-multiply"
-            />
-          </div>
-          <div className="mt-3 flex items-center justify-between px-1 text-xs font-medium text-muted-foreground">
-            <span>South Jakarta, Indonesia</span>
-            <span className="text-foreground">GMT+7</span>
-          </div>
-        </div>
-      </div>
+      {/* Spacer where the hanging badge overlay sits (the overlay itself is fixed) */}
+      <div className="hidden lg:col-span-5 lg:block" aria-hidden="true" />
+      <HangingLanyard />
 
       {/* Proof metrics */}
       <div className="col-span-1 grid grid-cols-1 gap-8 border-t border-border/70 pt-8 sm:grid-cols-3 lg:col-span-12 animate-fade-up" style={{ '--delay': '0.26s' } as React.CSSProperties}>
