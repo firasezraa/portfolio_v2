@@ -1,8 +1,6 @@
 "use client";
 
-import "./tweenly-hero-background-utils/review-theme.css";
-
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { cn } from "./tweenly-hero-background-utils/lib-utils";
 import { useReducedMotion } from "./tweenly-hero-background-utils/registry-new-york-hooks-use-reduced-motion";
 
@@ -17,7 +15,7 @@ export interface HeroBackgroundProps {
   variant?: HeroBackgroundVariant;
   /** Primary mark color (any CSS color, including CSS variables). Follows the text color by default. Default: "currentColor" */
   color?: string;
-  /** Highlight color used near the cursor (any CSS color). Default: "#ff4d12" */
+  /** Highlight color used near the cursor (any CSS color). Default: "var(--primary, #ff4d12)" */
   accent?: string;
   /** Background fill behind the marks (any CSS color). Default: "transparent" */
   background?: string;
@@ -856,7 +854,7 @@ const MASKS: Record<HeroBackgroundMask, CSSProperties | undefined> = {
 export function HeroBackground({
   variant = "dots",
   color = "currentColor",
-  accent = "#ff4d12",
+  accent = "var(--primary, #ff4d12)",
   background = "transparent",
   density = 1,
   size = 1.5,
@@ -981,17 +979,22 @@ export function HeroBackground({
         if (rip[i * 3 + 2] > RIPPLE_LIFE) rip[i * 3 + 2] = -1;
         else W.rippling = true;
       }
-      W.t += dt * W.o.speed;
-      if (!reduced) scene?.step(dt);
+      // Reduced motion freezes ambient drift but still steps the scene so the
+      // cursor highlight and click ripples respond to input.
+      if (!reduced) W.t += dt * W.o.speed;
+      scene?.step(dt);
     };
 
-    const shouldRun = () => (reduced ? onScreen && !document.hidden && W.w > 0 && W.h > 0 : !document.hidden && W.w > 0 && W.h > 0);
+    // Reduced motion only wakes the loop while the pointer is engaging the field,
+    // so a static page costs nothing between interactions.
+    const shouldRun = () =>
+      onScreen && !document.hidden && W.w > 0 && W.h > 0 && (!reduced || inside || W.presence > 0.002 || W.rippling);
 
     const frame = (now: number) => {
       raf = 0;
       if (!shouldRun()) return;
       raf = requestAnimationFrame(frame);
-      const minGap = 1000 / W.o.fps;
+      const minGap = 1000 / (reduced ? Math.min(20, W.o.fps) : W.o.fps);
       if (last && now - last < minGap - 1.5) return;
       const dt = last ? Math.min(Math.max((now - last) / 1000, 0.001), 0.05) : 1 / 60;
       last = now;
@@ -1052,9 +1055,15 @@ export function HeroBackground({
       tx = e.clientX - rect.left;
       ty = e.clientY - rect.top;
       inside = true;
+      // Wakes the loop in reduced-motion mode, where it idles without input.
+      start();
     };
     const onLeave = () => {
       inside = false;
+    };
+    // relatedTarget is null when the pointer leaves the window entirely.
+    const onPointerOut = (e: PointerEvent) => {
+      if (!e.relatedTarget) onLeave();
     };
     const onDown = (e: PointerEvent) => {
       onMove(e);
@@ -1091,10 +1100,12 @@ export function HeroBackground({
 
     const listen = interactive;
     if (listen) {
-      root.addEventListener("pointermove", onMove);
-      root.addEventListener("pointerdown", onDown);
-      root.addEventListener("pointerleave", onLeave);
-      root.addEventListener("pointercancel", onLeave);
+      // Window-level listeners: the hero background sits behind page content, so
+      // pointer events on the document never reach the root element itself.
+      window.addEventListener("pointermove", onMove, { passive: true });
+      window.addEventListener("pointerdown", onDown, { passive: true });
+      window.addEventListener("pointerout", onPointerOut, { passive: true });
+      window.addEventListener("blur", onLeave);
     }
     resize();
 
@@ -1108,10 +1119,10 @@ export function HeroBackground({
       scheme.removeEventListener("change", markDirty);
       document.removeEventListener("visibilitychange", onVisibility);
       if (listen) {
-        root.removeEventListener("pointermove", onMove);
-        root.removeEventListener("pointerdown", onDown);
-        root.removeEventListener("pointerleave", onLeave);
-        root.removeEventListener("pointercancel", onLeave);
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerdown", onDown);
+        window.removeEventListener("pointerout", onPointerOut);
+        window.removeEventListener("blur", onLeave);
       }
     };
   }, [variant, density, seed, interactive, reduced]);
@@ -1120,13 +1131,14 @@ export function HeroBackground({
     <div
       ref={rootRef}
       data-slot="hero-background"
-      className={cn("fixed inset-0 isolate overflow-hidden -z-10", className)}
+      className={cn("relative isolate overflow-hidden", className)}
       style={{ background }}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={MASKS[mask]}>
         <canvas ref={canvasRef} className="block size-full" />
         <span ref={probeRef} hidden />
       </div>
+      {children}
     </div>
   );
 }

@@ -90,12 +90,13 @@ export default function RootLayout({
             variant="dots"
             mask="radial"
             color="currentColor"
-            accent="#ff4d12"
+            accent="var(--primary)"
+            className="pointer-events-none fixed inset-0 -z-10"
             density={1}
             size={1.5}
             speed={1}
             interaction="repel"
-            radius={160}
+            radius={170}
             strength={1}
             opacity={0.35}
             clickRipple={true}

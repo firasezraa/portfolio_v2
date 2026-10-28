@@ -127,7 +127,8 @@
   }
   body {
     @apply text-foreground font-sans antialiased;
-    background: oklch(0.98 0.002 90);
+    /* Token, not a literal: a system dark preference swaps the whole palette. */
+    background: var(--background);
   }
 
   ::selection {
