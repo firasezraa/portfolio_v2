@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { InteractiveGradient } from "@/components/ui/interactive-gradient";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -81,6 +82,7 @@ export default function RootLayout({
       className={`${figtree.variable} ${bricolage.variable} ${figtree.className} font-sans h-full scroll-smooth antialiased`}
     >
       <body className={`${figtree.className} min-h-full flex flex-col font-sans bg-background text-foreground`}>
+        <InteractiveGradient intensity={0.08} />
         <Navbar />
         <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
           {children}
