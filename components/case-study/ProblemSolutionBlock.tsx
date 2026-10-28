@@ -1,4 +1,4 @@
-import { AlertCircle, Search, Lightbulb } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 
 interface ProblemSolutionBlockProps {
   problemStatement: {
@@ -16,73 +16,49 @@ export function ProblemSolutionBlock({
   researchAndDiscovery,
 }: ProblemSolutionBlockProps) {
   return (
-    <div className="space-y-12">
-      {/* 1. Problem Statement */}
+    <div className="space-y-14">
+      {/* Problem statement */}
       <section className="space-y-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-rose-400 uppercase tracking-wider">
-            <AlertCircle className="size-4" />
-            <span>The Challenge</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Problem Statement & Context
-          </h2>
-        </div>
-
-        <p className="text-base text-muted-foreground leading-relaxed">
+        <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Problem statement &amp; context
+        </h2>
+        <p className="max-w-3xl text-base leading-relaxed text-muted-foreground">
           {problemStatement.context}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-          {problemStatement.painPoints.map((point, idx) => (
-            <div
-              key={idx}
-              className="p-4 rounded-xl border border-border/60 bg-card/60 flex items-start gap-3"
+        <ul className="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
+          {problemStatement.painPoints.map((point) => (
+            <li
+              key={point}
+              className="flex items-start gap-3 text-sm leading-relaxed text-foreground/90"
             >
-              <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-rose-500/10 text-rose-400 font-bold text-xs mt-0.5">
-                {idx + 1}
-              </span>
-              <p className="text-xs text-foreground/90 leading-relaxed font-medium">
-                {point}
-              </p>
-            </div>
+              <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              <span>{point}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      {/* 2. Research & Discovery */}
-      <section className="space-y-6 p-6 sm:p-8 rounded-2xl border border-border/60 bg-muted/20">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider">
-            <Search className="size-4" />
-            <span>User Research & Discovery</span>
-          </div>
-          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-            Discovery Methodology & Insights
-          </h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {researchAndDiscovery.methodology}
-          </p>
-        </div>
+      {/* Research & discovery */}
+      <section className="space-y-6 rounded-2xl border border-border/70 bg-muted/40 p-6 sm:p-8">
+        <h3 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+          Discovery methodology &amp; insights
+        </h3>
+        <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {researchAndDiscovery.methodology}
+        </p>
 
-        <div className="space-y-3 pt-2">
-          <div className="text-xs font-semibold text-foreground uppercase tracking-wider">
-            Key Research Findings:
-          </div>
-          <div className="grid grid-cols-1 gap-2.5">
-            {researchAndDiscovery.keyFindings.map((finding, idx) => (
-              <div
-                key={idx}
-                className="flex items-start gap-3 p-3.5 rounded-lg border border-border/40 bg-background/50"
-              >
-                <Lightbulb className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                <span className="text-xs text-foreground/90 leading-relaxed">
-                  {finding}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ul className="space-y-3 pt-2">
+          {researchAndDiscovery.keyFindings.map((finding) => (
+            <li
+              key={finding}
+              className="flex items-start gap-3 text-sm leading-relaxed text-foreground/90"
+            >
+              <Lightbulb className="mt-0.5 size-4 shrink-0 text-primary" />
+              <span>{finding}</span>
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   );

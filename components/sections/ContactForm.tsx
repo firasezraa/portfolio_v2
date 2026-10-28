@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Mail, Send, CheckCircle2, AlertCircle, Loader2, MapPin, Clock } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, Mail, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { submitContactAction } from "@/app/actions/contact";
 import { ContactFormData } from "@/lib/validations";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
@@ -30,7 +28,6 @@ export function ContactForm() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for field on change
     if (fieldErrors[name]) {
       setFieldErrors((prev) => {
         const updated = { ...prev };
@@ -52,12 +49,12 @@ export function ContactForm() {
         if (res.errors) {
           setFieldErrors(res.errors);
         }
-        toast.error("Submission Failed", {
+        toast.error("Submission failed", {
           description: res.message,
         });
       } else {
         setIsSuccess(true);
-        toast.success("Message Delivered!", {
+        toast.success("Message delivered!", {
           description: res.message,
         });
         setFormData({
@@ -69,8 +66,9 @@ export function ContactForm() {
         });
       }
     } catch {
-      toast.error("Network Error", {
-        description: "Unable to reach the server. Please try again or email firasezraep@gmail.com directly.",
+      toast.error("Network error", {
+        description:
+          "Unable to reach the server. Please try again or email firasezraep@gmail.com directly.",
       });
     } finally {
       setIsSubmitting(false);
@@ -78,232 +76,205 @@ export function ContactForm() {
   };
 
   return (
-    <section id="contact" className="py-16 border-t border-border/40 space-y-12">
-      {/* Section Header */}
-      <div className="space-y-3">
-        <Badge variant="outline" className="gap-1.5 px-3 py-1 text-xs">
-          <Mail className="size-3 text-primary" />
-          Direct Inquiries
-        </Badge>
-        <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Let&apos;s Build Something Meaningful
+    <section id="contact" className="border-t border-border/70 pt-16 md:pt-20">
+      <div className="mb-12 max-w-2xl">
+        <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+          Let&rsquo;s work together
         </h2>
-        <p className="text-muted-foreground text-base max-w-2xl">
-          Interested in discussing a UI/UX role, design consulting, or a technical product project? Leave a message below or email directly.
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+          Whether it&rsquo;s a job opportunity, a design systems consultation,
+          or a product project — leave a message or email directly.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Contact Information & Channels (5 Cols) */}
-        <div className="lg:col-span-5 space-y-6">
-          <Card className="border-border/60 bg-card/60 backdrop-blur-sm">
-            <CardContent className="p-6 space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-start gap-3.5">
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <Mail className="size-4" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <div className="text-xs text-muted-foreground">Direct Email</div>
-                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
-                      <a
-                        href="mailto:firasezraep@gmail.com"
-                        className="text-sm font-semibold text-foreground hover:underline"
-                      >
-                        firasezraep@gmail.com
-                      </a>
-                      <CopyEmailButton variant="pill" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3.5">
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <MapPin className="size-4" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <div className="text-xs text-muted-foreground">Location</div>
-                    <div className="text-sm font-semibold text-foreground">
-                      South Jakarta, Indonesia (GMT+7)
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3.5">
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                    <Clock className="size-4" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <div className="text-xs text-muted-foreground">Response Time</div>
-                    <div className="text-sm font-semibold text-foreground">
-                      Within 24 Hours
-                    </div>
-                  </div>
-                </div>
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        {/* Contact info */}
+        <div className="space-y-8 lg:col-span-5">
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs font-medium text-muted-foreground">Direct email</p>
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                <a
+                  href="mailto:firasezraep@gmail.com"
+                  className="text-base font-semibold text-foreground underline-offset-4 hover:underline"
+                >
+                  firasezraep@gmail.com
+                </a>
+                <CopyEmailButton variant="button" />
               </div>
+            </div>
 
-              <div className="p-4 rounded-xl border border-border/40 bg-muted/20 space-y-2">
-                <div className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                  <CheckCircle2 className="size-3.5 text-emerald-400" />
-                  <span>Open to Opportunities</span>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Available for Full-Time UI/UX Design positions, Product Design roles, and select freelance design systems consulting.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+            <div>
+              <p className="text-xs font-medium text-muted-foreground">Location</p>
+              <p className="mt-2 flex items-center gap-2 text-base font-semibold text-foreground">
+                <MapPin className="size-4 text-primary" />
+                South Jakarta, Indonesia (GMT+7)
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs font-medium text-muted-foreground">Response time</p>
+              <p className="mt-2 flex items-center gap-2 text-base font-semibold text-foreground">
+                <Mail className="size-4 text-primary" />
+                Within 24 hours
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-border/70 bg-muted/40 p-5">
+            <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <CheckCircle2 className="size-4 text-emerald-500" />
+              Open to opportunities
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Available for full-time UI/UX &amp; product design roles, and
+              select freelance design-systems consulting.
+            </p>
+          </div>
         </div>
 
-        {/* Interactive Contact Form (7 Cols) */}
+        {/* Form */}
         <div className="lg:col-span-7">
-          <Card className="border-border/60 bg-card/60 backdrop-blur-sm">
-            <CardContent className="p-6 sm:p-8">
-              {isSuccess ? (
-                <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-                  <div className="flex size-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
-                    <CheckCircle2 className="size-8" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground">
-                    Message Sent Successfully!
-                  </h3>
-                  <p className="text-sm text-muted-foreground max-w-sm">
-                    Thank you for reaching out. I have received your message and will review it shortly.
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsSuccess(false)}
-                    className="mt-2"
-                  >
-                    Send Another Message
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* Honeypot field (hidden from real users, lures spam bots) */}
-                  <div className="hidden" aria-hidden="true">
-                    <label htmlFor="honeypot">Leave this blank</label>
-                    <input
-                      id="honeypot"
-                      type="text"
-                      name="honeypot"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={formData.honeypot || ""}
-                      onChange={handleChange}
-                    />
-                  </div>
+          {isSuccess ? (
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-border/70 bg-muted/40 px-6 py-16 text-center">
+              <div className="flex size-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
+                <CheckCircle2 className="size-7" />
+              </div>
+              <h3 className="mt-5 font-heading text-xl font-bold text-foreground">
+                Message sent
+              </h3>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+                Thank you for reaching out — I&rsquo;ve received your message
+                and will get back to you shortly.
+              </p>
+              <Button
+                variant="outline"
+                onClick={() => setIsSuccess(false)}
+                className="mt-6"
+              >
+                Send another message
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Honeypot */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="honeypot">Leave this blank</label>
+                <input
+                  id="honeypot"
+                  type="text"
+                  name="honeypot"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.honeypot || ""}
+                  onChange={handleChange}
+                />
+              </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Name Field */}
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-xs font-medium text-foreground">
-                        Your Name <span className="text-rose-400">*</span>
-                      </label>
-                      <Input
-                        id="name"
-                        name="name"
-                        placeholder="e.g. Sarah Jenkins"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className={fieldErrors.name ? "border-rose-500 focus-visible:ring-rose-500" : ""}
-                      />
-                      {fieldErrors.name && (
-                        <p className="text-[11px] text-rose-400 flex items-center gap-1">
-                          <AlertCircle className="size-3" />
-                          <span>{fieldErrors.name[0]}</span>
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Email Field */}
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-xs font-medium text-foreground">
-                        Email Address <span className="text-rose-400">*</span>
-                      </label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="e.g. sarah@company.com"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className={fieldErrors.email ? "border-rose-500 focus-visible:ring-rose-500" : ""}
-                      />
-                      {fieldErrors.email && (
-                        <p className="text-[11px] text-rose-400 flex items-center gap-1">
-                          <AlertCircle className="size-3" />
-                          <span>{fieldErrors.email[0]}</span>
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Company Field (Optional) */}
-                  <div className="space-y-2">
-                    <label htmlFor="company" className="text-xs font-medium text-foreground">
-                      Company / Organization <span className="text-muted-foreground">(Optional)</span>
-                    </label>
-                    <Input
-                      id="company"
-                      name="company"
-                      placeholder="e.g. Acme Corp / Tech Startup"
-                      value={formData.company || ""}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                    />
-                  </div>
-
-                  {/* Message Field */}
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-xs font-medium text-foreground">
-                      Message <span className="text-rose-400">*</span>
-                    </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      placeholder="Hi Firas, I came across your portfolio and would like to talk about..."
-                      required
-                      value={formData.message}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                      className={fieldErrors.message ? "border-rose-500 focus-visible:ring-rose-500" : ""}
-                    />
-                    {fieldErrors.message && (
-                      <p className="text-[11px] text-rose-400 flex items-center gap-1">
-                        <AlertCircle className="size-3" />
-                        <span>{fieldErrors.message[0]}</span>
-                      </p>
-                    )}
-                  </div>
-
-                  <Button
-                    type="submit"
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-sm font-medium text-foreground">
+                    Your name <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    placeholder="Sarah Jenkins"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
                     disabled={isSubmitting}
-                    className="w-full gap-2 font-medium"
-                    size="lg"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="size-4 animate-spin" />
-                        Delivering Message...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="size-4" />
-                        Send Message to Firas
-                      </>
-                    )}
-                  </Button>
-                </form>
-              )}
-            </CardContent>
-          </Card>
+                    className={fieldErrors.name ? "border-destructive" : ""}
+                  />
+                  {fieldErrors.name && (
+                    <p className="flex items-center gap-1 text-xs text-destructive">
+                      <AlertCircle className="size-3" />
+                      {fieldErrors.name[0]}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-sm font-medium text-foreground">
+                    Email address <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="sarah@company.com"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                    className={fieldErrors.email ? "border-destructive" : ""}
+                  />
+                  {fieldErrors.email && (
+                    <p className="flex items-center gap-1 text-xs text-destructive">
+                      <AlertCircle className="size-3" />
+                      {fieldErrors.email[0]}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="company" className="text-sm font-medium text-foreground">
+                  Company / organization{" "}
+                  <span className="text-muted-foreground">(optional)</span>
+                </label>
+                <Input
+                  id="company"
+                  name="company"
+                  placeholder="Acme Corp / Tech Startup"
+                  value={formData.company || ""}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-sm font-medium text-foreground">
+                  Message <span className="text-destructive">*</span>
+                </label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  placeholder="Hi Firas, I came across your portfolio and would like to talk about..."
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  className={fieldErrors.message ? "border-destructive" : ""}
+                />
+                {fieldErrors.message && (
+                  <p className="flex items-center gap-1 text-xs text-destructive">
+                    <AlertCircle className="size-3" />
+                    {fieldErrors.message[0]}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-11 w-full gap-2 text-sm font-semibold sm:w-auto sm:px-8"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="size-4" />
+                    Send message
+                  </>
+                )}
+              </Button>
+            </form>
+          )}
         </div>
       </div>
     </section>

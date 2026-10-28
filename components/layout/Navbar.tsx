@@ -1,133 +1,113 @@
 "use client";
 
 import Link from "next/link";
-import { Download, Menu, X } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { ArrowDown, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+
+const navLinks = [
+  { href: "/#work", label: "Work" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/#contact", label: "Contact" },
+];
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand / Logo */}
-        <Link href="/" className="group flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-foreground text-background font-bold text-sm tracking-tight transition-transform group-hover:scale-105">
-            FE
-          </div>
-          <div className="flex flex-col">
-            <span className="font-semibold text-sm leading-tight tracking-tight text-foreground">
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/85 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center px-5 sm:px-8 lg:px-10">
+        {/* Brand */}
+        <div className="flex flex-1 items-center justify-start">
+          <Link href="/" className="group flex items-center gap-2.5">
+            <span className="flex size-8 items-center justify-center rounded-md bg-primary font-heading text-sm font-bold text-primary-foreground">
+              FE
+            </span>
+            <span className="font-heading text-base font-bold tracking-tight text-foreground">
               Firas Ezra
             </span>
-            <span className="text-xs text-muted-foreground">
-              UI/UX & Product Designer
-            </span>
-          </div>
-        </Link>
-
-        {/* Status Badge (Desktop) */}
-        <div className="hidden md:flex items-center">
-          <Badge
-            variant="outline"
-            className="flex items-center gap-2 border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400"
-          >
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-            </span>
-            Available for New Roles
-          </Badge>
+          </Link>
         </div>
 
-        {/* Navigation & CTA (Desktop) */}
-        <nav className="hidden items-center gap-6 md:flex">
-          <Link
-            href="/#projects"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Case Studies
-          </Link>
-          <Link
-            href="/#experience"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Experience
-          </Link>
-          <Link
-            href="/#contact"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Contact
-          </Link>
+        {/* Desktop nav */}
+        <nav className="hidden flex-1 items-center justify-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Desktop status + CTA */}
+        <div className="hidden flex-1 items-center justify-end gap-5 md:flex">
+          <span className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-muted-foreground">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </span>
+            Available for roles
+          </span>
           <a
             href="/documents/firas-cv.pdf"
             download="Firas_Ezra_Resume.pdf"
-            className={cn(buttonVariants({ size: "sm" }), "gap-2 font-medium")}
+            className={cn(
+              "inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/85"
+            )}
           >
-            <Download className="size-3.5" />
+            <ArrowDown className="size-4" />
             Download CV
           </a>
-        </nav>
+        </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile toggle */}
         <div className="flex items-center gap-2 md:hidden">
           <a
             href="/documents/firas-cv.pdf"
             download="Firas_Ezra_Resume.pdf"
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "gap-1.5 text-xs h-8 px-2.5")}
+            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border bg-background px-2.5 text-xs font-medium text-foreground"
           >
-            <Download className="size-3" />
+            <ArrowDown className="size-3.5" />
             CV
           </a>
           <Button
             variant="ghost"
             size="icon"
-            className="size-8"
+            className="size-10"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Navigation Menu"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </Button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="border-b border-border bg-background px-4 py-4 md:hidden">
-          <div className="mb-3 flex items-center justify-between pb-3 border-b border-border/50">
-            <Badge
-              variant="outline"
-              className="flex items-center gap-1.5 border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400"
-            >
-              <span className="size-1.5 rounded-full bg-emerald-500"></span>
-              Available for Hire
-            </Badge>
+        <div className="border-t border-border bg-background px-5 py-4 md:hidden">
+          <div className="flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-md px-2 py-2.5 text-sm font-medium text-foreground hover:bg-muted"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-          <div className="flex flex-col gap-3">
-            <Link
-              href="/#projects"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-foreground py-1.5 hover:text-primary"
-            >
-              Case Studies
-            </Link>
-            <Link
-              href="/#experience"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-foreground py-1.5 hover:text-primary"
-            >
-              Experience
-            </Link>
-            <Link
-              href="/#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-foreground py-1.5 hover:text-primary"
-            >
-              Contact
-            </Link>
+          <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-4 text-xs font-medium text-muted-foreground">
+            <span className="relative flex size-2">
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </span>
+            Available for new roles
           </div>
         </div>
       )}

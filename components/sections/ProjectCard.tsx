@@ -1,103 +1,105 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { ArrowUpRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { CaseStudy } from "@/types";
 
 interface ProjectCardProps {
   project: CaseStudy;
+  reverse?: boolean;
   priority?: boolean;
 }
 
-export function ProjectCard({ project, priority = false }: ProjectCardProps) {
-  return (
-    <Card className="group overflow-hidden border-border/60 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-500/[0.04]">
-      <Link href={`/projects/${project.slug}`} className="block focus:outline-none">
-        {/* Mockup Image Container */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted/40 border-b border-border/40">
-          <Image
-            src={project.heroImage}
-            alt={project.title}
-            fill
-            priority={priority}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-          
-          <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-            <Badge className="bg-background/90 text-foreground backdrop-blur-md border border-border/70 text-xs font-medium shadow-md">
-              <span className="size-1.5 rounded-full bg-emerald-400 mr-1.5 shrink-0" />
-              {project.category}
-            </Badge>
-          </div>
+export function ProjectCard({ project, reverse = false, priority = false }: ProjectCardProps) {
+  const metrics = project.metrics.slice(0, 2);
+  // The card shows the descriptive name; the company already sits in the meta line.
+  const displayTitle = (project.title.split(" — ").pop() ?? project.title).trim();
 
-          <div className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full bg-background/90 backdrop-blur-md text-foreground shadow-md transition-all duration-300 group-hover:bg-foreground group-hover:text-background group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-            <ArrowUpRight className="size-4" />
-          </div>
+  return (
+    <article
+      className={cn(
+        "group grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12"
+      )}
+    >
+      {/* Image */}
+      <Link
+        href={`/projects/${project.slug}`}
+        className={cn(
+          "relative block overflow-hidden rounded-2xl border border-border/80 bg-muted focus:outline-none",
+          "lg:col-span-7",
+          reverse && "lg:order-2"
+        )}
+      >
+        <Image
+          src={project.heroImage}
+          alt={`${project.title} — case study cover`}
+          width={1200}
+          height={800}
+          priority={priority}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 720px"
+          className="aspect-[3/2] h-auto w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+        />
+        <span className="absolute right-4 top-4 inline-flex size-9 items-center justify-center rounded-full bg-background/90 text-foreground opacity-0 shadow-sm transition-opacity duration-300 group-hover:opacity-100">
+          <ArrowUpRight className="size-4" />
+        </span>
+      </Link>
+
+      {/* Content */}
+      <div className={cn("lg:col-span-5", reverse && "lg:order-1")}>
+        <div className="text-xs font-medium text-muted-foreground">
+          {project.clientOrContext}
+        </div>
+        <div className="mt-1.5 text-xs font-semibold text-muted-foreground">
+          {project.timeline}
         </div>
 
-        {/* Content Body */}
-        <CardContent className="p-6 sm:p-8 space-y-5">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-              <span>{project.clientOrContext}</span>
-              <span>&bull;</span>
-              <span>{project.timeline}</span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-              {project.title}
-            </h3>
-            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
-              {project.tagline}
-            </p>
-          </div>
+        <h3 className="mt-3 font-heading text-2xl font-bold leading-tight tracking-tight text-foreground [text-wrap:balance] sm:text-3xl">
+          <Link
+            href={`/projects/${project.slug}`}
+            className="underline-offset-4 transition-colors hover:text-primary hover:underline"
+          >
+            {displayTitle}
+          </Link>
+        </h3>
 
-          {/* Key Metrics Pill Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-            {project.metrics.map((metric, idx) => (
-              <div
-                key={idx}
-                className="rounded-lg border border-border/40 bg-muted/20 p-2.5 space-y-0.5"
-              >
-                <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground truncate">
-                  <TrendingUp className="size-3 text-emerald-500 shrink-0" />
-                  <span className="truncate">{metric.label}</span>
-                </div>
-                <div className="text-base sm:text-lg font-bold text-foreground">
-                  {metric.value}
-                </div>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {project.tagline}
+        </p>
+
+        {/* Key metrics */}
+        <div className="mt-6 grid grid-cols-2 gap-6 border-t border-border/70 pt-5">
+          {metrics.map((metric) => (
+            <div key={metric.label}>
+              <div className="font-heading text-2xl font-bold tracking-tight text-foreground">
+                {metric.value}
               </div>
-            ))}
-          </div>
-
-          {/* Role & Tech Badges */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-border/40">
-            <div className="flex flex-wrap gap-1.5">
-              {project.tools.slice(0, 3).map((tool, tIdx) => (
-                <Badge
-                  key={tIdx}
-                  variant="secondary"
-                  className="text-[11px] font-normal px-2 py-0.5"
-                >
-                  {tool}
-                </Badge>
-              ))}
-              {project.tools.length > 3 && (
-                <span className="text-[11px] text-muted-foreground self-center">
-                  +{project.tools.length - 3} more
-                </span>
-              )}
+              <div className="mt-1 text-xs text-muted-foreground">
+                {metric.label}
+              </div>
             </div>
+          ))}
+        </div>
 
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary transition-transform group-hover:translate-x-1">
-              Read Case Study
-              <ArrowUpRight className="size-3.5" />
+        {/* Tools */}
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.tools.slice(0, 4).map((tool) => (
+            <span
+              key={tool}
+              className="rounded-md border border-border/70 bg-background px-2.5 py-1 text-xs font-medium text-muted-foreground"
+            >
+              {tool}
             </span>
-          </div>
-        </CardContent>
-      </Link>
-    </Card>
+          ))}
+        </div>
+
+        <Link
+          href={`/projects/${project.slug}`}
+          className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+        >
+          Read case study
+          <ArrowUpRight className="size-4" />
+        </Link>
+      </div>
+    </article>
   );
 }
