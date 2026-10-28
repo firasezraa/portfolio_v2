@@ -76,5 +76,5 @@ export function InteractiveGradient({
     willChange: "background",
   } as React.CSSProperties;
 
-  return <div className={cn("fixed inset-0 -z-10", className)} style={style} />;
+  return <div className={cn("fixed inset-0", className)} style={style} />;
 }

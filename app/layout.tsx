@@ -82,8 +82,8 @@ export default function RootLayout({
       className={`${figtree.variable} ${bricolage.variable} ${figtree.className} font-sans h-full scroll-smooth antialiased`}
       suppressHydrationWarning
     >
-      <body className={`${figtree.className} min-h-full flex flex-col font-sans bg-background text-foreground`} suppressHydrationWarning>
-        <InteractiveGradient intensity={0.08} />
+      <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
+        <InteractiveGradient intensity={0.18} />
         <Navbar />
         <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
           {children}
