@@ -14,7 +14,7 @@ export function HeroSection() {
   return (
     <section id="hero" className="relative grid grid-cols-1 gap-12 pt-4 md:pt-8 lg:grid-cols-12 lg:gap-8">
       {/* Mobile: reserve the space the hanging badge occupies so it never covers the headline */}
-      <div className="col-span-full h-[19rem] sm:h-[20rem] lg:hidden" aria-hidden="true" />
+      <div className="col-span-full h-[21rem] sm:h-[22rem] lg:hidden" aria-hidden="true" />
       {/* Copy */}
       <div className="flex flex-col justify-center lg:col-span-7">
         <p className="animate-fade-up text-sm font-medium text-muted-foreground" style={{ '--delay': '0.02s' } as React.CSSProperties}>

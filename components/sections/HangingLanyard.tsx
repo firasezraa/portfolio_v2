@@ -114,10 +114,18 @@ export function HangingLanyard() {
   // Card width is 0.711 x size x stage height, so these values keep ~20% clearance
   // on both sides of the swing at each breakpoint.
   const isPhone = typeof window !== "undefined" && window.innerWidth < DESKTOP_BREAKPOINT;
-  const size = isPhone ? 0.58 : 0.52;
+  // The stage now spans the whole copy column (plus its padding), so the card is a
+  // small part of it: these values keep the same on-screen card size while leaving
+  // room to drag in every direction. anchorOffset puts the desktop rest position back
+  // on the "89.2%" column that the narrow stage used to give us.
+  const size = isPhone ? 0.455 : 0.409;
+  // Card bbox sits ~7px right of centre because it hangs tilted; pull it back so the
+  // resting pose is optically centred on phones.
+  const anchorOffset = isPhone ? -0.018 : 0.2063;
+  const strapLength = isPhone ? 0.25 : 0.27;
 
   return (
-    <div className="pointer-events-none absolute -top-[44px] left-1/2 z-40 h-[27rem] w-[min(90vw,360px)] -translate-x-1/2 lg:-top-[68px] lg:left-auto lg:right-14 lg:h-[clamp(520px,66vh,660px)] lg:w-[clamp(300px,30vw,400px)] lg:translate-x-0">
+    <div className="pointer-events-none absolute -top-[44px] left-1/2 z-40 h-[34rem] w-[calc(100%+2.5rem)] -translate-x-1/2 lg:-top-[68px] lg:h-[clamp(620px,84vh,820px)] lg:w-[min(calc(100%+18rem),calc(100vw-12px))]">
       {mounted ? (
         <Lanyard
           frontImage={PORTRAIT}
@@ -129,7 +137,8 @@ export function HangingLanyard() {
           cornerRadius={0.24}
           size={size}
           anchor="center"
-          strapLength={0.3}
+          anchorOffset={anchorOffset}
+          strapLength={strapLength}
           strapColor="#111111"
           strapWidth={0.62}
           metal="silver"
