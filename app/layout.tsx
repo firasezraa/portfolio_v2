@@ -85,6 +85,7 @@ export default function RootLayout({
     >
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
+          {/* Full-viewport hero background, fixed behind all content */}
           <HeroBackground
             variant="dots"
             mask="radial"
@@ -101,13 +102,17 @@ export default function RootLayout({
             interactive={true}
             seed={1}
             fps={60}
-          >
+          />
+          
+          {/* Page content layered on top */}
+          <div className="relative flex flex-col min-h-screen z-10">
             <Navbar />
             <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
               {children}
             </div>
             <Footer />
-          </HeroBackground>
+          </div>
+          
           <Toaster richColors position="top-right" />
         </body>
       </ThemeProvider>
