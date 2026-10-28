@@ -126,7 +126,9 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased;
+    /* Token, not a literal: a system dark preference swaps the whole palette. */
+    background: var(--background);
   }
 
   ::selection {
@@ -169,4 +171,9 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22,1,0.36,1) both;
+  animation-delay: var(--delay, 0s);
 }

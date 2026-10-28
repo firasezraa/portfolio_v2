@@ -4,6 +4,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeProvider } from "next-themes";
+import { HeroBackground } from "@/components/ui/tweenly-hero-background";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -79,14 +81,41 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${figtree.variable} ${bricolage.variable} ${figtree.className} font-sans h-full scroll-smooth antialiased`}
+      suppressHydrationWarning
     >
-      <body className={`${figtree.className} min-h-full flex flex-col font-sans bg-background text-foreground`}>
-        <Navbar />
-        <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
-          {children}
-        </div>
-        <Footer />
-        <Toaster richColors position="top-right" />
+      <body className={`${figtree.className} min-h-full flex flex-col font-sans text-foreground`} suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {/* Full-viewport hero background, fixed behind all content */}
+          <HeroBackground
+            variant="dots"
+            mask="radial"
+            color="currentColor"
+            accent="var(--primary)"
+            className="pointer-events-none fixed inset-0 -z-10"
+            density={1}
+            size={1.5}
+            speed={1}
+            interaction="repel"
+            radius={170}
+            strength={1}
+            opacity={0.35}
+            clickRipple={true}
+            interactive={true}
+            seed={1}
+            fps={60}
+          />
+
+          {/* Page content layered on top */}
+          <div className="relative flex flex-col min-h-screen z-10">
+            <Navbar />
+            <div className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 md:py-16">
+              {children}
+            </div>
+            <Footer />
+          </div>
+
+          <Toaster richColors position="top-right" />
+        </ThemeProvider>
       </body>
     </html>
   );
